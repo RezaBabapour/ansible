@@ -1,0 +1,24 @@
+---
+# tasks file for common-setup
+- name: update sources.list
+  #import_tasks: apt.yml
+  copy:
+    src: sources.list
+    dest: /etc/apt/sources.list
+    mode: '0644'
+
+- name : install common packages
+  apt:
+    name:
+      - vim
+      - htop
+      - wget
+      - curl
+      - tcpdump
+      - telnet
+      - ca-certificates
+      - lsb-release
+      - gnupg
+- name: include docker install
+  import_tasks: docker.yml
+  tags: [ docker ]
