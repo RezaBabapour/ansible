@@ -1,7 +1,11 @@
 ---
 # tasks file for common-setup
+
+- name: show group_vars variables
+  debug:
+    var: compose_path 
+
 - name: update sources.list
-  #import_tasks: apt.yml
   copy:
     src: sources.list
     dest: /etc/apt/sources.list

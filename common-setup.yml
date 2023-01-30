@@ -1,6 +1,21 @@
 ---
 - hosts: all
   remote_user: root
- 
+
+  post_tasks:
+    - name: debug in post_tasks
+      debug:  
+        var: compose_path
+
+  tasks:
+    - name: debug in tasks
+      debug:  
+        var: compose_path
+
+  pre_tasks:
+    - name: debug in pre_tasks
+      debug:  
+        var: compose_path
+
   roles:
     - common-setup
