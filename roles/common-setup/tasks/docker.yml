@@ -15,3 +15,17 @@
       - docker-ce-cli 
       - containerd.io 
       - docker-compose-plugin
+
+- name: Edit docker configs
+  copy:
+    content: |
+      {
+        "log-driver": "json-file",
+        "log-opts": {
+        "max-size": "210m",
+        "max-file": "3"
+        }
+      }
+    dest: /etc/docker/daemon.json
+  notify:
+    - restart docker 

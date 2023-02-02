@@ -1,2 +1,4 @@
 ---
 # handlers file for common-setup
+- name: restart docker
+  shell: systemctl restart docker
