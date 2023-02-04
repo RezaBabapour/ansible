@@ -1,0 +1,45 @@
+---
+# tasks file for run_service
+- name: define service path
+  set_fact:
+    service_path: "{{ hostvars[groups[service][0]][service].project }}"
+
+- name: create service directory
+  file:
+      path: "{{ compose_path }}/{{ service_path }}"
+      state: directory
+
+- name: "Ensure directory structure exists for service: {{ service }}"
+  file:
+    path: '{{ compose_path }}/{{ service_path }}/{{ item.path }}'
+    state: directory
+  with_filetree: '../templates/{{ service_path }}'
+  when: item.state == 'directory'
+
+- name: "Ensure files are populated from templates for service: {{ service }}"
+  template:
+    src: '{{ item.src }}'
+    dest: "{{ compose_path }}/{{ service_path }}/{{ item.path | regex_replace('.j2$', '') }}"
+  with_filetree: '../templates/{{ service_path }}'
+  when: item.state == 'file'
+
+- name: "{{ service }}"
+  shell:
+    chdir: "{{ compose_path }}/{{ service_path }}"
+    executable: /bin/bash
+    cmd: |
+        docker-compose pull
+        docker-compose up -d
+  register: run_status
+
+- debug:
+    var: run_status.stdout_lines
+- debug:
+    var: run_status.stderr_lines
+
+
+- debug:
+  #var: service_path
+  #var: hostvars['hosting'].ansible_host => 192.168.1.2
+  # var: hostvars[groups[service][0]][groups[service][0]].project
+      #var: groups[service] => hosting

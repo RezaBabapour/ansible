@@ -1,0 +1,18 @@
+http:
+  routers:
+    who:
+      rule: "Host(`who.powerusers.ir`)"
+      service: "who"
+#      tls:
+#        certResolver: myresolver
+
+  services:
+    who:
+      loadBalancer:
+        servers:
+        - url: "http://192.168.1.8:5000"
+        - url: "http://192.168.1.9:5000"
+        healthCheck:
+          path: /
+          interval: "10s"
+          timeout: "3s"

@@ -1,0 +1,53 @@
+################################################################
+# API and dashboard configuration
+################################################################
+api:
+  # Dashboard
+  #
+  #
+  dashboard: true
+  insecure: true
+    #  middlewares:
+    #    - auth
+    #http:
+    #  middlewares:
+    #    auth:
+    #      basicAuth:
+    #        users:
+    #          - admin:$apr1$h9n28mxd$bp6Ng1aF2LbxbQ4WLdzlR1
+    
+################################################################
+# Docker configuration backend
+################################################################
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/sites
+    watch: true
+################################################################
+# Traefik Logging
+################################################################
+log:
+  level: DEBUG 
+
+################################################################
+# Entrypoint
+################################################################
+entryPoints:
+  web:
+    address: ":90"
+  websecure:
+    address: ":444"
+
+################################################################
+# Challenge HTTP
+################################################################
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: reza.babapour91@gmail.com
+      storage: /letsencrypt/acme.json
+      httpChallenge:
+        entryPoint: web
+

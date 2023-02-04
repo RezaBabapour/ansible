@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+
+  traefik:
+    image: traefik:v2.9
+    container_name: traefik
+    network_mode: "host"
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /core/db/certs/letsencrypt:/letsencrypt:rw
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./sites:/etc/traefik/sites

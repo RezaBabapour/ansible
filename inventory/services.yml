@@ -1,0 +1,15 @@
+all:
+  children:
+    traefik:
+      hosts:
+        hosting:
+      vars:
+        traefik:
+          project: "traefik"
+    who:
+      hosts:
+        test01:
+        test02:
+      vars:
+        who:
+          project: "who"
