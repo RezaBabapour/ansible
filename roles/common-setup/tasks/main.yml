@@ -1,11 +1,11 @@
 ---
 # tasks file for common-setup
 
-- name: show group_vars variables
+- name: Show group_vars variables
   debug:
     var: compose_path 
 
-- name: update sources.list
+- name: Update sources.list
   copy:
     src: sources.list
     dest: /etc/apt/sources.list
@@ -14,10 +14,27 @@
 - name: Update apt-get repo and cache
   apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
 
- name: Upgrade all apt packages
+- name: Upgrade all apt packages
   apt: upgrade=dist force_apt_get=yes        
 
-- name : install common packages
+- name: Copy bashrc to server
+  ansible.builtin.copy:
+    src: bashrc
+    dest: /root/.bashrc
+    mode: '0644'  
+
+- name: Make sure bash_completion.d dir exists
+  file:
+    path: /root/.bash_completion.d
+    state: directory
+
+- name: Copy complete_alias to server
+  ansible.builtin.copy:
+    src: complete_alias
+    dest: /root/.bash_completion.d/complete_alias
+    mode: '0644'  
+
+- name : Install common packages
   apt:
     name:
       - vim
@@ -29,7 +46,8 @@
       - ca-certificates
       - lsb-release
       - gnupg
+      - bash-completion
 
-- name: include docker install
+- name: Include docker install
   import_tasks: docker.yml
   tags: [ docker ]
