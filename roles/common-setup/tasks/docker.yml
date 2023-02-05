@@ -22,6 +22,11 @@
     dest: /usr/local/bin/docker-compose
     mode: '0755'
 
+- name: Make sure /etc/docker dir exists
+  file:
+    path: /etc/docker
+    state: directory
+
 - name: Edit docker configs
   copy:
     content: |
