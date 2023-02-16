@@ -1,6 +1,19 @@
 ---
 # tasks file for common-setup
 
+- debug:
+    var: inventory_hostname
+
+- name: set hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Ensure hostname is in /etc/hosts
+  lineinfile:
+    dest: /etc/hosts
+    regexp: "^127.0.1.1.+$"
+    line: "127.0.1.1\t{{ inventory_hostname }}"
+
 - name: Update sources.list
   copy:
     src: sources.list
