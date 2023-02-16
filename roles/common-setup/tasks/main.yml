@@ -1,10 +1,6 @@
 ---
 # tasks file for common-setup
 
-- name: Show group_vars variables
-  debug:
-    var: compose_path 
-
 - name: Update sources.list
   copy:
     src: sources.list
