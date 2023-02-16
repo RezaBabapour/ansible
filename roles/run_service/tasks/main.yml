@@ -37,9 +37,3 @@
 - debug:
     var: run_status.stderr_lines
 
-
-- debug:
-  #var: service_path
-  #var: hostvars['hosting'].ansible_host => 192.168.1.2
-  # var: hostvars[groups[service][0]][groups[service][0]].project
-      #var: groups[service] => hosting
